@@ -6,6 +6,8 @@ import path = require('path');
 import { Observable, of } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
+
+
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -16,8 +18,8 @@ export class AppController {
   }
 
   @Get('test')
-  getTest(): string{
-    return 'testtest'
+  async getTest(): Promise<string>{
+    return this.appService.pythonCombine()
   }
 
   @Post('image')
@@ -33,9 +35,11 @@ export class AppController {
       })
     }))
 
-    uploadImage(@UploadedFile() file): Observable<Object> {
+    uploadImage(@UploadedFile() file) {
       console.log("reach")  
       console.log(file);
-        return of({"image_URL": file.path});
+      const res =  this.appService.pythonCombine();
+      console.log("hello")
+      return of({"image_URL": file.path});
     }
 }
