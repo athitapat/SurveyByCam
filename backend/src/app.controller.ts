@@ -1,5 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UploadedFile, Post, UseInterceptors} from '@nestjs/common';
 import { AppService } from './app.service';
+import {FileInterceptor} from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import path = require('path');
+import { Observable, of } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 
 @Controller()
 export class AppController {
@@ -9,4 +14,28 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('test')
+  getTest(): string{
+    return 'testtest'
+  }
+
+  @Post('image')
+    @UseInterceptors(FileInterceptor('file',{
+      storage: diskStorage({
+        destination: '../Images',
+        filename: (req, file, cb) =>{
+          const filename: string = path.parse(file.originalname).name.replace(/\s/g, '')+ uuidv4();
+          const extension:string = path.parse(file.originalname).ext;
+
+          cb(null, `${filename}${extension}`)
+        }
+      })
+    }))
+
+    uploadImage(@UploadedFile() file): Observable<Object> {
+      console.log("reach")  
+      console.log(file);
+        return of({"image_URL": file.path});
+    }
 }
