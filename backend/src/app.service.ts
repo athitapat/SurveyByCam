@@ -23,11 +23,14 @@ export class AppService {
     await pythonProcess.stdout.on('data', (data) => {
       //console.log(`Node JS got Data ${data} and type ${typeof(data)}`)
       mystr = data.toString();
-      console.log(mystr)
+      // console.log(mystr)
 
       myjson = JSON.parse(mystr);
-      console.log(myjson)
-      this.imagetextgpsRepository.save({'text': myjson.Data})
+      // console.log(myjson)
+      let date = new Date();
+      date.setMinutes(date.getMinutes()+7*60);
+      myjson.date_saved = date
+      this.imagetextgpsRepository.save(myjson)
       console.log("Data has already saved to database")
     })
 

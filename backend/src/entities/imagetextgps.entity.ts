@@ -4,9 +4,20 @@ import { Entity, Column, ObjectIdColumn, ObjectID} from 'typeorm';
 export class Imagetextgps {
   @ObjectIdColumn()
   id?: ObjectID;
-
   @Column()
-  text: string;
+  image_path:string;
+  @Column()
+  boxing_path: string;
+  @Column()
+  dimension: string;
+  @Column()
+  raw_text: string;
+  @Column()
+  texts: string;
+  @Column()
+  date_taken: Date;
+  @Column()
+  date_saved: Date;
 }
 
 export default Imagetextgps;
