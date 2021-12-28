@@ -19,7 +19,7 @@ export class AppController {
 
   @Get('test')
   async getTest(): Promise<string>{
-    return this.appService.pythonCombine()
+    return this.appService.extractTextGPS("test")
   }
 
   @Post('image')
@@ -36,10 +36,8 @@ export class AppController {
     }))
 
     uploadImage(@UploadedFile() file) {
-      console.log("reach")  
       console.log(file);
-      const res =  this.appService.pythonCombine();
-      console.log("hello")
-      return of({"image_URL": file.path});
+      const res =  this.appService.extractTextGPS(file.path);
+      return of({"image_path": file.path});
     }
 }
