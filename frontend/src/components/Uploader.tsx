@@ -16,11 +16,11 @@ const Uploader = (props: UploaderProps) =>{
 	const [state, setState] = useState<imgFile>({file: '',imagePreviewUrl: ''});
 
 
-	const handleUpload =  (e:React.ChangeEvent<HTMLInputElement>) => {
+	const handleUpload =  (e) => {
 		e.preventDefault();
 		const fd = new FormData();
-		fd.append('image', state.file, state.imagePreviewUrl);
-		
+		fd.append('image', state.file);
+		console.log('handle uploading-', state.file);
 		const config = {
 			headers: {
 				'content-type': 'multipart/form-data'
@@ -31,18 +31,13 @@ const Uploader = (props: UploaderProps) =>{
 				method: "POST",
 				body: fd,
 			});
-			
+			alert('uploaded')
 		}catch (err){
 			console.log(err)
 		}
 
-		// axios.post(`${baseUrl}/image?file`, fd, config)
-		// 	.then(res => {
-		// 		alert('uploaded')
-		// 		console.log(res);
-		// 	});
 
- 		console.log('handle uploading-', state.file);
+ 		
 	}
 
 	const handleImageChange = (e:React.ChangeEvent<HTMLInputElement>) => {
