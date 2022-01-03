@@ -15,7 +15,6 @@ type imgFile = {
 const Uploader = (props: UploaderProps) =>{
 	const [state, setState] = useState<imgFile>({file: '',imagePreviewUrl: ''});
 
-
 	const handleUpload =  (e) => {
 		e.preventDefault();
 		const fd = new FormData();
@@ -27,17 +26,20 @@ const Uploader = (props: UploaderProps) =>{
 			},
 		};
 		try{
-			fetch(`http://localhost:3000/image`, {
+			fetch(`${baseUrl}/image`, {
 				method: "POST",
 				body: fd,
 			});
 			alert('uploaded')
+		
 		}catch (err){
 			console.log(err)
 		}
+		const source = new EventSource(`${baseUrl}/sse`);
+		source.onmessage = ({ data }) => {
+			console.log('New message', JSON.parse(data));
+		}
 
-
- 		
 	}
 
 	const handleImageChange = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +57,8 @@ const Uploader = (props: UploaderProps) =>{
 		reader.readAsDataURL(file)
 		}
 	}
+
+
 
 	let {imagePreviewUrl} = state;
 	let $imagePreview = null;
@@ -77,6 +81,10 @@ const Uploader = (props: UploaderProps) =>{
 		<div className="imgPreview">
 		{$imagePreview}
 		</div>
+		<div className="imgBoxingPreview">
+		{$imagePreview}
+		</div>
+
 	</div>
 	)
 }
