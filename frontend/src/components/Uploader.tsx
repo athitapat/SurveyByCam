@@ -35,7 +35,7 @@ const Uploader = (props: UploaderProps) =>{
 		}catch (err){
 			console.log(err)
 		}
-		const source = new EventSource(`${baseUrl}/sse`);
+		const source = new EventSource(`${baseUrl}/events`);
 		source.onmessage = ({ data }) => {
 			console.log('New message', JSON.parse(data));
 		}

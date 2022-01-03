@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import Imagetextgps from './entities/imagetextgps.entity';
 import Boxingpath from './entities/boxingpath.entity';
+import { EventsService } from './events.service';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import Boxingpath from './entities/boxingpath.entity';
     TypeOrmModule.forFeature([Imagetextgps, Boxingpath])
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, EventsService],
 })
 export class AppModule {}

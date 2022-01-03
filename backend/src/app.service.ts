@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { ObjectID } from 'mongodb';
 import Boxingpath from './entities/boxingpath.entity';
 import Imagetextgps from './entities/imagetextgps.entity';
+import { EventsService } from './events.service';
 
 @Injectable()
 export class AppService {
@@ -11,7 +12,9 @@ export class AppService {
     @InjectRepository(Imagetextgps)
     private  imagetextgpsRepository: Repository<Imagetextgps>,
     @InjectRepository(Boxingpath)
-    private boxingpathRepository: Repository<Boxingpath>
+    private boxingpathRepository: Repository<Boxingpath>,
+
+    private eventsService: EventsService
   ) {}
 
   getHello(): string {
@@ -46,14 +49,17 @@ export class AppService {
       myjson.date_saved = date
       this.imagetextgpsRepository.save(myjson)
       console.log("Data has already saved to database")
-      let id = new ObjectID('61d2b8c987f3e017d4eb3ae0')
-      return  this.boxingpathRepository.update(
-        { id: id }, //fix id
-        { counter: Date.now(),
-          boxing_path: myjson.boxing_path
-        },
+
+      this.eventsService.emit({data:myjson})
+
+      // let id = new ObjectID('61d2b8c987f3e017d4eb3ae0')
+      // return  this.boxingpathRepository.update(
+      //   { id: id }, //fix id
+      //   { counter: Date.now(),
+      //     boxing_path: myjson.boxing_path
+      //   },
         
-      );
+      // );
     })
 
     
