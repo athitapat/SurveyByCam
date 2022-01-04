@@ -50,7 +50,7 @@ export class AppService {
       this.imagetextgpsRepository.save(myjson)
       console.log("Data has already saved to database")
 
-      this.eventsService.emit({data:myjson})
+      this.eventsService.emit(myjson)
 
       // let id = new ObjectID('61d2b8c987f3e017d4eb3ae0')
       // return  this.boxingpathRepository.update(
