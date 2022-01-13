@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import Search from './components/Search';
 import Uploader from './components/Uploader'
-import {
-	BrowserRouter as Router
-} from 'react-router-dom'
 import { Routes, Route } from 'react-router';
 const App = () => {
 	return (

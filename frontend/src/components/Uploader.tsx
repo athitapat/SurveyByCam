@@ -1,6 +1,5 @@
-import axios from 'axios';
+
 import React, { Component, useState } from 'react';
-import { textSpanContainsPosition } from 'typescript';
 import { baseUrl } from '../configurations/constant';
 import '../CSSsource/Uploader.css';
 
