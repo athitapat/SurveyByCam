@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
+import Search from './components/Search';
 import Uploader from './components/Uploader'
+import {
+	BrowserRouter as Router
+} from 'react-router-dom'
+import { Routes, Route } from 'react-router';
 const App = () => {
 	return (
-	  
-		<div className="App">
-
-		<Uploader/>
-		</div>
-		  
-	
+		<Routes>
+			<Route  path = '/' element = {<Uploader/>}/>
+			<Route  path = '/search' element = {<Search/>}/>	
+		</Routes>
 	);
   }
   

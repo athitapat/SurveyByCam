@@ -11,6 +11,8 @@ export class Imagetextgps {
   @Column()
   dimension: string;
   @Column()
+  position: Object;
+  @Column()
   raw_text: string;
   @Column()
   texts: string;
