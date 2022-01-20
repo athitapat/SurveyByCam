@@ -1,4 +1,4 @@
-import { Controller, Get, UploadedFile, Post, UseInterceptors, Sse, Request} from '@nestjs/common';
+import { Controller, Get, UploadedFile, Post, UseInterceptors, Sse, Request, Param} from '@nestjs/common';
 import { AppService } from './app.service';
 import {FileInterceptor} from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -31,6 +31,12 @@ export class AppController {
   async postTest(): Promise<any>{
     return this.appService.createBoxingPath()
   }
+
+  @Get('search/:object')
+  async searchObj(@Param('object') object:string): Promise<any> {
+    return this.appService.searchObj(object)
+  }
+
 
   @Post('image')
     @UseInterceptors(FileInterceptor('image',{

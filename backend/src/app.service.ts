@@ -89,4 +89,21 @@ export class AppService {
       "boxing_path": ""
   })
   }
+
+  
+
+  async searchObj(obj: string): Promise<any>{
+    let nodeArr: any;
+    await this.imagetextgpsRepository.find()
+      .then(setNode => {
+        nodeArr = setNode;
+      });  
+
+    let nodes: Imagetextgps[]
+    nodes = nodeArr.filter(eachNode =>{
+      return eachNode.raw_text.find(e => e === obj)
+    }) 
+
+    return nodes
+  }
 }
