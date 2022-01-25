@@ -60,6 +60,7 @@ const Map = () => {
                     setSelected(marker)
                     //console.log(selected)
                 }}
+                
                 />
             ))}
         
