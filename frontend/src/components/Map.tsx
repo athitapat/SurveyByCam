@@ -1,13 +1,13 @@
 import React, { useCallback, useContext, useRef, useState } from "react";
 import { apiKey } from "../configurations/apikey";
 import { GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api"
-import { baseUrl } from "../configurations/constant";
+import { baseUrl, libraries } from "../configurations/constant";
 import { nodeModuleNameResolver } from "typescript";
 import { Imagetextgps } from "../interfaces/imagetextgps";
 
 
 
-const libraries = ["places"];
+
 const mapContainerStyle = {
     width: '50vw',
     height: '50vh',
@@ -55,22 +55,28 @@ const Map = () => {
                 
                 <Marker
                     key = {marker.id}
-                    position = {{lat: marker.lat, lng: marker.lng}}
-                    
+                    position = {{lat: marker.position.latitude, lng: marker.position.longitude}}
+                onClick ={ () => {
+                    setSelected(marker)
+                    //console.log(selected)
+                }}
                 />
             ))}
-            {/* {selected ? (
+        
+            {selected ? (
                 <InfoWindow
-                    position={{lat:selected.lat, lng:selected.lng}}
+                    position={{lat:selected.position.latitude, lng:selected.position.longitude}}
                     onCloseClick = {() => {
                         setSelected(null);
                     }}
                 >
                     <div>
                         <p>{selected.raw_text}</p>
+                        <p>{selected.date_saved}</p>
+                        <p>{selected.date_taken}</p>
                     </div>
                 </InfoWindow>
-            ) : null } */}
+            ) : null }
 
 
         </GoogleMap>
@@ -85,7 +91,7 @@ function Search({panTo, setMarkers}){
 
     const handleNewKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
         setNewKeyword(e.target.value)
-        console.log(newKeyword)
+        //console.log(newKeyword)
         if (newKeyword.length>0){
             fetch(`${baseUrl}/search/${newKeyword}`)
                 .then(res => res.json())
@@ -111,7 +117,7 @@ function Search({panTo, setMarkers}){
         panTo({
             lat: markPos1.position.latitude,
              lng: markPos1.position.longitude})
-        setMarkers(marksPos)
+        setMarkers(nodes)
     
         //console.log(nodes)
     };
