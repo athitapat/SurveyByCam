@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useRef, useState } from "react";
-import { apiKey } from "../configurations/apikey";
+import { apiKey } from "../configurations-secret/apikey";
 import { GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api"
 import { baseUrl, libraries } from "../configurations/constant";
 import { nodeModuleNameResolver } from "typescript";
