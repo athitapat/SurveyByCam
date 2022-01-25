@@ -101,7 +101,9 @@ export class AppService {
 
     let nodes: Imagetextgps[]
     nodes = nodeArr.filter(eachNode =>{
-      return eachNode.raw_text.find(e => e === obj)
+      //console.log(eachNode.raw_text.toLowerCase().includes(obj.toLowerCase()))
+      return eachNode.raw_text.toLowerCase().includes(obj.toLowerCase())
+      
     }) 
 
     return nodes

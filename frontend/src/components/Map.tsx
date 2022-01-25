@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useRef, useState } from "react";
 import { apiKey } from "../configurations/apikey";
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api"
+import { GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api"
 import { baseUrl } from "../configurations/constant";
 import { nodeModuleNameResolver } from "typescript";
 import { Imagetextgps } from "../interfaces/imagetextgps";
@@ -46,17 +46,33 @@ const Map = () => {
 
     return <div>
         <GoogleMap 
-        mapContainerStyle={mapContainerStyle}
-        zoom ={15}
-        center = {center}
-        onLoad = {onMapLoad}
+            mapContainerStyle={mapContainerStyle}
+            zoom ={15}
+            center = {center}
+            onLoad = {onMapLoad}
         >
             {markers.map(marker => (
+                
                 <Marker
                     key = {marker.id}
                     position = {{lat: marker.lat, lng: marker.lng}}
+                    
                 />
             ))}
+            {/* {selected ? (
+                <InfoWindow
+                    position={{lat:selected.lat, lng:selected.lng}}
+                    onCloseClick = {() => {
+                        setSelected(null);
+                    }}
+                >
+                    <div>
+                        <p>{selected.raw_text}</p>
+                    </div>
+                </InfoWindow>
+            ) : null } */}
+
+
         </GoogleMap>
         <Search panTo = {panTo} setMarkers = {setMarkers}/>
     </div>
@@ -65,6 +81,8 @@ const Map = () => {
 
 function Search({panTo, setMarkers}){
     const [newKeyword, setNewKeyword] = useState<string>('');
+    const [nodes, setNodes] = useState([]);
+
     const handleNewKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
         setNewKeyword(e.target.value)
         console.log(newKeyword)
@@ -72,25 +90,54 @@ function Search({panTo, setMarkers}){
             fetch(`${baseUrl}/search/${newKeyword}`)
                 .then(res => res.json())
                 .then(nodes=>{
-                    console.log(nodes)
+                    setNodes(nodes)
                 })
         }
     };
 
-    const handleSubmit = () =>{
+    const handleSubmit = (node) =>{
         
         
-        panTo({lat: 13.851070,
-            lng: 100.677710})
-        setMarkers([{id:1,lat: 13.851070,
-            lng: 100.677710}, {id:2,lat: 13.861070,
-                lng: 100.677710}])
+        
+        const marksPos = nodes.map(node =>{
+            return {
+                id: node.id,
+                lat: node.position.latitude,
+                lng: node.position.longitude
+            }
+        })
+        const markPos1 = node 
+        //console.log(markPos1)
+        panTo({
+            lat: markPos1.position.latitude,
+             lng: markPos1.position.longitude})
+        setMarkers(marksPos)
+    
         //console.log(nodes)
     };
+
     return (
         <div>
-        Search: <input value = {newKeyword} onChange={handleNewKeywordChange}/><br />
-        <button onClick={handleSubmit}>submit</button>
+            <div>
+                Search: <input value = {newKeyword} onChange={handleNewKeywordChange}/><br />
+                
+            </div>
+            <div>
+                {
+                nodes.map(node => {
+                    return (
+                        <a href='#'>
+                           <div >
+                            {node.raw_text}
+                            
+                            <button onClick={ () =>{handleSubmit(node)}}>submit</button>
+                            </div> 
+                        </a>
+                        
+                    )
+                })
+                }
+            </div>
     </div>
     )
 }
