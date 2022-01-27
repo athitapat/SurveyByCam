@@ -82,12 +82,12 @@ const Map = () => {
 
 
         </GoogleMap> */}
-        <Search panTo = {panTo} setMarkers = {setMarkers}/>
+        <Search panTo = {panTo} setMarkers = {setMarkers} setSelected = {setSelected}/>
     </div>
           
 };
 
-function Search({panTo, setMarkers}){
+function Search({panTo, setMarkers, setSelected}){
     const [newKeyword, setNewKeyword] = useState<string>('');
     const [nodes, setNodes] = useState([]);
     const [detailVisible, setDetailVisible] = useState<boolean>(false)
@@ -121,6 +121,7 @@ function Search({panTo, setMarkers}){
             lat: markPos1.position.latitude,
              lng: markPos1.position.longitude})
         setMarkers(nodes)
+        setSelected(markPos1)
     
         //console.log(nodes)
     };
