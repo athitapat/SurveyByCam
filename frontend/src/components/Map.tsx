@@ -2,14 +2,13 @@ import React, { useCallback, useContext, useRef, useState } from "react";
 import { apiKey } from "../configurations-secret/apikey";
 import { GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api"
 import { baseUrl, libraries } from "../configurations/constant";
-import { nodeModuleNameResolver } from "typescript";
-import { Imagetextgps } from "../interfaces/imagetextgps";
+import '../CSSsource/Search.css'
 
 
 
 
 const mapContainerStyle = {
-    width: '50vw',
+    width: '100vw',
     height: '50vh',
 }
 const center  = {
@@ -38,6 +37,8 @@ const Map = () => {
         if (mapRef.current)
             // @ts-ignore
             mapRef.current.panTo({lat,lng}); 
+            // @ts-ignore
+            mapRef.current.setZoom(17);
             
     }, []);
     
@@ -45,7 +46,7 @@ const Map = () => {
     if(!isLoaded) return null//"Loading Maps";
 
     return <div>
-        <GoogleMap 
+        {/* <GoogleMap 
             mapContainerStyle={mapContainerStyle}
             zoom ={15}
             center = {center}
@@ -80,7 +81,7 @@ const Map = () => {
             ) : null }
 
 
-        </GoogleMap>
+        </GoogleMap> */}
         <Search panTo = {panTo} setMarkers = {setMarkers}/>
     </div>
           
@@ -103,9 +104,6 @@ function Search({panTo, setMarkers}){
     };
 
     const handleSubmit = (node) =>{
-        
-        
-        
         const marksPos = nodes.map(node =>{
             return {
                 id: node.id,
@@ -123,24 +121,43 @@ function Search({panTo, setMarkers}){
         //console.log(nodes)
     };
 
+    function  getHighlightedText(text, highlight) {
+        // Split on highlight term and include term into parts, ignore case
+        const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+        const texts = text.split(new RegExp(` `, 'gi'));
+        const headers = texts.filter(eachText =>{
+            //console.log(eachText.raw_text.toLowerCase().includes(obj.toLowerCase()))
+            return eachText.toLowerCase().includes(highlight.toLowerCase())
+            
+          }) 
+        return (
+            <div>
+                <h1>{headers.map((header, i) => <span key = {i}>{header} </span>)}</h1>
+                <span> { parts.map((part, i) => 
+                    <span key={i} style = {part.toLowerCase() === highlight.toLowerCase() ? {color: "red"} : {} }>
+                         { part }
+                    </span>)
+                    }       
+                </span>;
+            </div>
+        )
+    }
+
     return (
         <div>
             <div>
                 Search: <input value = {newKeyword} onChange={handleNewKeywordChange}/><br />
                 
             </div>
-            <div>
+            <div className="results">
                 {
                 nodes.map(node => {
-                    return (
-                        <a href='#'>
-                           <div >
-                            {node.raw_text}
+                    return (       
+                            <div key={node.id} className = "result" >
+                                {getHighlightedText(node.raw_text, newKeyword)}
                             
-                            <button onClick={ () =>{handleSubmit(node)}}>submit</button>
-                            </div> 
-                        </a>
-                        
+                                <button onClick={ () =>{handleSubmit(node)}}>submit</button>
+                            </div>  
                     )
                 })
                 }
