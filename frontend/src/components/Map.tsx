@@ -90,6 +90,7 @@ const Map = () => {
 function Search({panTo, setMarkers}){
     const [newKeyword, setNewKeyword] = useState<string>('');
     const [nodes, setNodes] = useState([]);
+    const [detailVisible, setDetailVisible] = useState<boolean>(false)
 
     const handleNewKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
         setNewKeyword(e.target.value)
@@ -100,6 +101,9 @@ function Search({panTo, setMarkers}){
                 .then(nodes=>{
                     setNodes(nodes)
                 })
+        }
+        else{
+            setNodes([])
         }
     };
 
@@ -124,15 +128,8 @@ function Search({panTo, setMarkers}){
     function  getHighlightedText(text, highlight) {
         // Split on highlight term and include term into parts, ignore case
         const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
-        const texts = text.split(new RegExp(` `, 'gi'));
-        const headers = texts.filter(eachText =>{
-            //console.log(eachText.raw_text.toLowerCase().includes(obj.toLowerCase()))
-            return eachText.toLowerCase().includes(highlight.toLowerCase())
-            
-          }) 
         return (
             <div>
-                <h1>{headers.map((header, i) => <span key = {i}>{header} </span>)}</h1>
                 <span> { parts.map((part, i) => 
                     <span key={i} style = {part.toLowerCase() === highlight.toLowerCase() ? {color: "red"} : {} }>
                          { part }
@@ -141,6 +138,28 @@ function Search({panTo, setMarkers}){
                 </span>;
             </div>
         )
+    }
+
+    function getHeaderText(text, highlight){
+        // Split on highlight term and include term into parts, ignore case
+        const texts = text.split(new RegExp(` `, 'gi'));
+        const headers = texts.filter(eachText =>{
+            //console.log(eachText.raw_text.toLowerCase().includes(obj.toLowerCase()))
+            return eachText.toLowerCase().includes(highlight.toLowerCase())
+          }) 
+        return (
+            <div>
+                <h3>{headers.map((header, i) => <span key = {i}>{header} </span>)}</h3>
+            </div>
+        )
+    }
+
+    const handleDetailVisibleToggle = () =>{
+        if(!detailVisible){
+            setDetailVisible(true)
+        }else {
+            setDetailVisible(false)
+        }
     }
 
     return (
@@ -153,10 +172,19 @@ function Search({panTo, setMarkers}){
                 {
                 nodes.map(node => {
                     return (       
-                            <div key={node.id} className = "result" >
-                                {getHighlightedText(node.raw_text, newKeyword)}
-                            
-                                <button onClick={ () =>{handleSubmit(node)}}>submit</button>
+                            <div key={node.id} className = "card" >
+                                <a href="#" onClick={()=>{handleSubmit(node)}}>
+                                     {getHeaderText(node.raw_text, newKeyword)}
+                                </a>
+                               
+                                <button onClick={ handleDetailVisibleToggle}>
+                                    {!detailVisible ? 'more detail': 'less detail'}
+                                </button>
+                                { detailVisible &&
+                                    (
+                                        <p>{getHighlightedText(node.raw_text, newKeyword)}</p>
+                                    )
+                                }
                             </div>  
                     )
                 })
