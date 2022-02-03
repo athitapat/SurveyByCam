@@ -178,7 +178,7 @@ function Search({panTo, setMarkers, setSelected}){
                                 <a href="#" onClick={()=>{handleSubmit(node)}}>
                                      {getHeaderText(node.raw_text, newKeyword)}
                                 </a>
-                               
+                               <a>{node.address}</a>
                                 <button onClick={ handleDetailVisibleToggle}>
                                     {!detailVisible ? 'more detail': 'less detail'}
                                 </button>
