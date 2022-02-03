@@ -46,7 +46,7 @@ const Map = () => {
     if(!isLoaded) return null//"Loading Maps";
 
     return <div>
-        {/* <GoogleMap 
+        <GoogleMap 
             mapContainerStyle={mapContainerStyle}
             zoom ={15}
             center = {center}
@@ -73,15 +73,16 @@ const Map = () => {
                     }}
                 >
                     <div>
+                        <img src={`${baseUrl}${selected.boxing_path}`}></img>
                         <p>{selected.raw_text}</p>
-                        <p>{selected.date_saved}</p>
-                        <p>{selected.date_taken}</p>
+                        <p>saved date {selected.date_saved}</p>
+                        <p>taken date {selected.date_taken}</p>
                     </div>
                 </InfoWindow>
             ) : null }
 
 
-        </GoogleMap> */}
+        </GoogleMap>
         <Search panTo = {panTo} setMarkers = {setMarkers} setSelected = {setSelected}/>
     </div>
           

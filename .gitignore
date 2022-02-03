@@ -69,3 +69,4 @@ yarn-error.log*
 /webpage
 /frontend/src/Images
 /frontend/src/configurations-secret
+/backend/images

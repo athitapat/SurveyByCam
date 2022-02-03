@@ -26,7 +26,7 @@ type position = {
 
 const Uploader = (props: UploaderProps) =>{
 	const [imgState, imgSetState] = useState<imgFile>({file: '',imagePreviewUrl: ''});
-	const [imgProcessedState, imgPeocessedSetState] = useState<imgProcessedFile>({file: '',imageProcessedUrl: ''});
+	const [imgProcessedState, imgProcessedSetState] = useState<imgProcessedFile>({file: '',imageProcessedUrl: ''});
 	const [textsState, textsSetState] = useState<any[]>([])
 	const [posState, posSetState] = useState<any>('')
 
@@ -55,7 +55,7 @@ const Uploader = (props: UploaderProps) =>{
 			const dataJson = JSON.parse(data)
 			console.log('New message', dataJson.position);
 			
-			imgPeocessedSetState({
+			imgProcessedSetState({
 				file: dataJson.path,
 				imageProcessedUrl: dataJson.boxing_path//'../Images/testing_cropped-1641219355253_boxing.jpg'//dataJson.boxing_path
 			})
@@ -84,7 +84,7 @@ const Uploader = (props: UploaderProps) =>{
 		}
 		reader.readAsDataURL(file)
 		}
-		imgPeocessedSetState({
+		imgProcessedSetState({
 			file: '',
 			imageProcessedUrl: ''
 		})
@@ -108,7 +108,7 @@ const Uploader = (props: UploaderProps) =>{
 	let $imageProcessed = null;
 	
 	if (imageProcessedUrl) {
-		const path = process.env.PUBLIC_URL + imageProcessedUrl
+		const path = baseUrl + imageProcessedUrl
 		console.log('path type', typeof(path), path)
 		$imageProcessed = (<img src={path}  />);
 	} else {

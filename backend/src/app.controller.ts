@@ -41,7 +41,7 @@ export class AppController {
   @Post('image')
     @UseInterceptors(FileInterceptor('image',{
       storage: diskStorage({
-        destination: '../frontend/src/Images',
+        destination: '../frontend/src/images',
         filename: (req, file, cb) =>{
           const filename: string = path.parse(file.originalname).name.replace(/\s/g, '')+ '-' + Date.now();
           const extension:string = path.parse(file.originalname).ext;
