@@ -3,13 +3,20 @@ import { apiKey } from "../configurations-secret/apikey";
 import { GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api"
 import { baseUrl, libraries } from "../configurations/constant";
 import '../CSSsource/Search.css'
-
+import {
+    Combobox,
+    ComboboxInput,
+    ComboboxPopover,
+    ComboboxList,
+    ComboboxOption,
+} from "@reach/combobox"
+import "@reach/combobox/styles.css"
 
 
 
 const mapContainerStyle = {
     width: '100vw',
-    height: '50vh',
+    height: '100vh',
 }
 const center  = {
     lat: 13.851070,
@@ -46,6 +53,8 @@ const Map = () => {
     if(!isLoaded) return null//"Loading Maps";
 
     return <div>
+        
+        <Search panTo = {panTo} setMarkers = {setMarkers} setSelected = {setSelected}/>
         <GoogleMap 
             mapContainerStyle={mapContainerStyle}
             zoom ={15}
@@ -73,7 +82,7 @@ const Map = () => {
                     }}
                 >
                     <div>
-                        <img src={`${baseUrl}${selected.boxing_path}`}></img>
+                        <img width ="100" height = "100" src={`${baseUrl}${selected.boxing_path}`} ></img>
                         <p>{selected.raw_text}</p>
                         <p>saved date {selected.date_saved}</p>
                         <p>taken date {selected.date_taken}</p>
@@ -83,7 +92,7 @@ const Map = () => {
 
 
         </GoogleMap>
-        <Search panTo = {panTo} setMarkers = {setMarkers} setSelected = {setSelected}/>
+        
     </div>
           
 };
@@ -166,7 +175,7 @@ function Search({panTo, setMarkers, setSelected}){
 
     return (
         <div>
-            <div>
+            <div className="searchBox">
                 Search: <input value = {newKeyword} onChange={handleNewKeywordChange}/><br />
                 
             </div>

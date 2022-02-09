@@ -32,3 +32,13 @@
     font-weight: 800;
     color: brown;
 }
+
+.searchBox {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  z-index: 10;
+}
