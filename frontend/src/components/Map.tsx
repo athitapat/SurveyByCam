@@ -53,7 +53,7 @@ const Map = () => {
     if(!isLoaded) return null//"Loading Maps";
 
     return <div>
-        
+
         <Search panTo = {panTo} setMarkers = {setMarkers} setSelected = {setSelected}/>
         <GoogleMap 
             mapContainerStyle={mapContainerStyle}
@@ -82,7 +82,10 @@ const Map = () => {
                     }}
                 >
                     <div>
-                        <img width ="100" height = "100" src={`${baseUrl}${selected.boxing_path}`} ></img>
+                        <div className="imgPopUpContainer">
+                            <img src={`${baseUrl}${selected.boxing_path}`} className = "imgPopUp"></img>
+                        </div>
+                        
                         <p>{selected.raw_text}</p>
                         <p>saved date {selected.date_saved}</p>
                         <p>taken date {selected.date_taken}</p>
@@ -92,6 +95,7 @@ const Map = () => {
 
 
         </GoogleMap>
+        
         
     </div>
           
@@ -174,34 +178,80 @@ function Search({panTo, setMarkers, setSelected}){
     }
 
     return (
-        <div>
-            <div className="searchBox">
-                Search: <input value = {newKeyword} onChange={handleNewKeywordChange}/><br />
+        <div className="searchBox">
+            <Combobox
+                onSelect={(address)=>{
+                    console.log(address);
+                }}
+            >
+                <ComboboxInput 
+                    value={newKeyword}
+                    onChange = {handleNewKeywordChange}
+                    placeholder = "Search..."
+                />
                 
-            </div>
-            <div className="results">
-                {
-                nodes.map(node => {
-                    return (       
-                            <div key={node.id} className = "card" >
-                                <a href="#" onClick={()=>{handleSubmit(node)}}>
-                                     {getHeaderText(node.raw_text, newKeyword)}
+                <ComboboxPopover>
+                    <div className="results">
+                    {
+                        nodes.map(node => {
+                            return (    
+                                <a href="#" onClick={()=>{handleSubmit(node)}} className ="resultBlock">
+                                    <div key={node.id} className = "card" >
+                                        {getHeaderText(node.raw_text, newKeyword)}
+                                        <a>{node.address}</a>
+                                    <div className="imgResultContainer">
+                                        <img  src={`${baseUrl}${node.boxing_path}`} className = "imgResult"/>
+                                    </div>
+                                    
+                                    <button onClick={ handleDetailVisibleToggle}>
+                                        {!detailVisible ? 'more detail': 'less detail'}
+                                    </button>
+                                    { detailVisible &&
+                                        (
+                                            <p>{getHighlightedText(node.raw_text, newKeyword)}</p>
+                                        )
+                                    }
+                                    </div>  
                                 </a>
-                               <a>{node.address}</a>
-                                <button onClick={ handleDetailVisibleToggle}>
-                                    {!detailVisible ? 'more detail': 'less detail'}
-                                </button>
-                                { detailVisible &&
-                                    (
-                                        <p>{getHighlightedText(node.raw_text, newKeyword)}</p>
-                                    )
-                                }
-                            </div>  
-                    )
-                })
-                }
-            </div>
-    </div>
+                            )
+                        })
+                    }
+                    </div>
+                </ComboboxPopover>
+                
+            </Combobox>
+        </div>
+        
+            
+            
+        // <div>
+        //     <div >
+        //         Search: <input value = {newKeyword} onChange={handleNewKeywordChange}/><br />
+                
+        //     </div>
+        //     <div className="results">
+        //         {
+        //         nodes.map(node => {
+        //             return (       
+        //                     <div key={node.id} className = "card" >
+        //                         <a href="#" onClick={()=>{handleSubmit(node)}}>
+        //                              {getHeaderText(node.raw_text, newKeyword)}
+        //                         </a>
+        //                        <a>{node.address}</a>
+        //                         <button onClick={ handleDetailVisibleToggle}>
+        //                             {!detailVisible ? 'more detail': 'less detail'}
+        //                         </button>
+        //                         { detailVisible &&
+        //                             (
+        //                                 <p>{getHighlightedText(node.raw_text, newKeyword)}</p>
+        //                             )
+        //                         }
+        //                     </div>  
+        //             )
+        //         })
+        //         }
+        //     </div>
+        // </div>
     )
 }
 
