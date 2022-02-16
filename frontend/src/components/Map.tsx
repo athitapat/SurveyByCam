@@ -55,7 +55,7 @@ const Map = () => {
     return <div>
 
         <Search panTo = {panTo} setMarkers = {setMarkers} setSelected = {setSelected}/>
-        <GoogleMap 
+        {/* <GoogleMap 
             mapContainerStyle={mapContainerStyle}
             zoom ={15}
             center = {center}
@@ -94,7 +94,7 @@ const Map = () => {
             ) : null }
 
 
-        </GoogleMap>
+        </GoogleMap> */}
         
         
     </div>
@@ -200,7 +200,7 @@ function Search({panTo, setMarkers, setSelected}){
                                             {getHeaderText(node.raw_text, newKeyword)}
                                             <a>{node.address}</a>
                                         <div className="imgResultContainer">
-                                            <img  src={`${baseUrl}${node.boxing_path}`} className = "imgResult"/>
+                                            <img  src={`${baseUrl}${node.image_path}`} className = "imgResult"/>
                                         </div>
                                         
                                         <button onClick={ handleDetailVisibleToggle}>

@@ -62,7 +62,8 @@ yarn-error.log*
 
 #-----------------Other---------------------
 /adminMongo
-/Python
+/Python/apikey.py
+/Python/__pycache__
 /Images
 /result
 /ImageDatas
@@ -70,3 +71,4 @@ yarn-error.log*
 /frontend/src/Images
 /frontend/src/configurations-secret
 /backend/images
+/Test_Python
