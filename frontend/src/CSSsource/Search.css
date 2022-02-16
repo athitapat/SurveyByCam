@@ -10,6 +10,7 @@
     background-color: #FFF;
     border-radius: 16px;
     transition: 0.4s;
+    overflow-y: scroll;
 }
 
 .card {
@@ -41,6 +42,7 @@
   width: 100%;
   max-width: 400px;
   z-index: 10;
+  
 }
 
 .searchBox input {
@@ -50,10 +52,8 @@
 }
 
 .scroll-div {
-  width: 400px;
-  height: 300px;
-  overflow: hidden;
-  overflow-y: scroll;
+  
+  
 }
 
 .imgResultContainer {
@@ -73,6 +73,9 @@
 .imgPopUpContainer {
   height: 400px;
   width: 400px;
+  position: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .imgPopUp{
