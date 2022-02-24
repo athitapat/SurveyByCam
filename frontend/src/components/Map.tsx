@@ -11,6 +11,7 @@ import {
     ComboboxOption,
 } from "@reach/combobox"
 import "@reach/combobox/styles.css"
+import Uploader from "./Uploader";
 
 
 
@@ -53,8 +54,9 @@ const Map = () => {
     if(!isLoaded) return null//"Loading Maps";
 
     return <div>
-
+        
         <Search panTo = {panTo} setMarkers = {setMarkers} setSelected = {setSelected}/>
+        <Uploader/>
         {/* <GoogleMap 
             mapContainerStyle={mapContainerStyle}
             zoom ={15}
@@ -83,7 +85,7 @@ const Map = () => {
                 >
                     <div>
                         <div className="imgPopUpContainer">
-                            <img src={`${baseUrl}${selected.boxing_path}`} className = "imgPopUp"></img>
+                            <img src={`${baseUrl}${selected.image_path}`} className = "imgPopUp"></img>
                         </div>
                         
                         <p>{selected.raw_text}</p>

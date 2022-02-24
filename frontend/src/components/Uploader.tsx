@@ -137,9 +137,9 @@ const Uploader = (props: UploaderProps) =>{
 		<div className="imgPreview">
 		{$imagePreview}
 		</div>
-		<div className="imgBoxingPreview">
+		{/* <div className="imgBoxingPreview">
 		{$imageProcessed}
-		</div>
+		</div> */}
 		<div className='extractedText'>
 			<ul>
 				{textsState.map((item)=>(
