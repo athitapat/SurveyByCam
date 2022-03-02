@@ -78,6 +78,10 @@
   justify-content: center;
 }
 
+.imgPopUpContainer :hover{
+  transform: scale(1.5);
+}
+
 .imgPopUp{
   position: center;
   max-width: 100%;

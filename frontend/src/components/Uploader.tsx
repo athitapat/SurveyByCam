@@ -100,7 +100,7 @@ const Uploader = (props: UploaderProps) =>{
 	$imagePreview = (<img src={imagePreviewUrl} />);
 
 	} else {
-	$imagePreview = (<div className="previewText">Please select an Image</div>);
+	$imagePreview = (null);
 	}
 	// console.log($imagePreview)
 
@@ -130,26 +130,34 @@ const Uploader = (props: UploaderProps) =>{
 		<input className="fileInput" 
 			type="file" 
 			onChange={(e)=>handleImageChange(e)} />
-		<button className="submitButton" 
+		
+		</form>
+		{ $imagePreview ? 
+			<div>
+			<div className="imgPreview">
+				{$imagePreview}
+				
+			</div> 
+			<button className="submitButton" 
 			type="submit" 
 			onClick={(e)=>handleUpload(e)}>Upload</button>
-		</form>
-		<div className="imgPreview">
-		{$imagePreview}
-		</div>
+			</div>
+			: null
+		}
+		
 		{/* <div className="imgBoxingPreview">
 		{$imageProcessed}
 		</div> */}
 		<div className='extractedText'>
 			<ul>
 				{textsState.map((item)=>(
-					<li>{item}</li>
+					<li>{item[0]}</li>
 				))}
 			</ul>
 		</div>
-		<div>
+		{/* <div>
 			{poscheck}
-		</div>
+		</div> */}
 		
 
 	</div>

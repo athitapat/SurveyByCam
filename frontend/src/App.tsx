@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Map from './components/Map';
-import Uploader from './components/Uploader_backup'
+import Uploader from './components/Uploader'
 import { Routes, Route } from 'react-router';
 const App = () => {
 	return (
