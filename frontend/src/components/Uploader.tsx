@@ -148,13 +148,18 @@ const Uploader = (props: UploaderProps) =>{
 		{/* <div className="imgBoxingPreview">
 		{$imageProcessed}
 		</div> */}
-		<div className='extractedText'>
-			<ul>
-				{textsState.map((item)=>(
-					<li>{item[0]}</li>
-				))}
-			</ul>
-		</div>
+		
+		{ $imagePreview ?
+			<div className='exteactedTextBox'>
+				<ul>
+					{textsState.map((item, pos)=>(
+						<li key={pos}>{item[0]}</li>
+					))}
+				</ul>
+			</div>
+			: null
+		}
+		
 		{/* <div>
 			{poscheck}
 		</div> */}

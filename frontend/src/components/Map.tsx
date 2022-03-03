@@ -23,6 +23,9 @@ const center  = {
     lat: 13.851070,
     lng: 100.577710
 }
+const options = {
+    mapTypeControl: false,
+}
 
 const Map = () => {
     
@@ -57,11 +60,12 @@ const Map = () => {
         
         <Search panTo = {panTo} setMarkers = {setMarkers} setSelected = {setSelected}/>
         <Uploader/>
-        <GoogleMap 
+        {/* <GoogleMap 
             mapContainerStyle={mapContainerStyle}
             zoom ={15}
             center = {center}
             onLoad = {onMapLoad}
+            options = {options}
         >
             {markers.map(marker => (
                 
@@ -96,7 +100,7 @@ const Map = () => {
             ) : null }
 
 
-        </GoogleMap>
+        </GoogleMap> */}
         
         
     </div>
@@ -105,7 +109,7 @@ const Map = () => {
 
 function Search({panTo, setMarkers, setSelected}){
     const [newKeyword, setNewKeyword] = useState<string>('');
-    const [nodes, setNodes] = useState([]);
+    const [nodes, setNodes] = useState(null);
     const [detailVisible, setDetailVisible] = useState<boolean>(false)
 
     const handleNewKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
@@ -119,7 +123,7 @@ function Search({panTo, setMarkers, setSelected}){
                 })
         }
         else{
-            setNodes([])
+            setNodes(null)
         }
     };
 
@@ -180,85 +184,87 @@ function Search({panTo, setMarkers, setSelected}){
     }
 
     return (
-        <div className="searchBox">
-            <Combobox
-                onSelect={(address)=>{
-                    console.log(address);
-                }}
-            >
-                <ComboboxInput 
-                    value={newKeyword}
-                    onChange = {handleNewKeywordChange}
-                    placeholder = "Search..."
-                />
-                <div>
-                    <ComboboxPopover>
-                        <div className="results">
-                        {
-                            nodes.map(node => {
-                                return (    
-                                    <a href="#" onClick={()=>{handleSubmit(node)}} className ="resultBlock">
-                                        <div key={node.id} className = "card" >
-                                            {getHeaderText(node.raw_text, newKeyword)}
-                                            <a>{node.address}</a>
-                                        <div className="imgResultContainer">
-                                            <img  src={`${baseUrl}${node.image_path}`} className = "imgResult"/>
-                                        </div>
+        // <div className="searchBox">
+        //     <Combobox
+        //         onSelect={(address)=>{
+        //             console.log(address);
+        //         }}
+        //     >
+        //         <ComboboxInput 
+        //             value={newKeyword}
+        //             onChange = {handleNewKeywordChange}
+        //             placeholder = "Search..."
+        //         />
+        //         <div>
+        //             <ComboboxPopover>
+        //                 <div className="results">
+        //                 {
+        //                     nodes.map(node => {
+        //                         return (    
+        //                             <a href="#" onClick={()=>{handleSubmit(node)}} className ="resultBlock">
+        //                                 <div key={node.id} className = "card" >
+        //                                     {getHeaderText(node.raw_text, newKeyword)}
+        //                                     <a>{node.address}</a>
+        //                                 <div className="imgResultContainer">
+        //                                     <img  src={`${baseUrl}${node.image_path}`} className = "imgResult"/>
+        //                                 </div>
                                         
-                                        <button onClick={ handleDetailVisibleToggle}>
-                                            {!detailVisible ? 'more detail': 'less detail'}
-                                        </button>
-                                        { detailVisible &&
-                                            (
-                                                <p>{getHighlightedText(node.raw_text, newKeyword)}</p>
-                                            )
-                                        }
-                                        </div>  
-                                    </a>
-                                )
-                            })
-                        }
-                        </div>
-                    </ComboboxPopover>
-                </div>
-                
-                
-            </Combobox>
-        </div>
+        //                                 <button onClick={ handleDetailVisibleToggle}>
+        //                                     {!detailVisible ? 'more detail': 'less detail'}
+        //                                 </button>
+        //                                 { detailVisible &&
+        //                                     (
+        //                                         <p>{getHighlightedText(node.raw_text, newKeyword)}</p>
+        //                                     )
+        //                                 }
+        //                                 </div>  
+        //                             </a>
+        //                         )
+        //                     })
+        //                 }
+        //                 </div>
+        //             </ComboboxPopover>
+        //         </div>
+        //     </Combobox>
+        // </div>
         
             
             
-        // <div>
-        //     <div >
-        //         Search: <input value = {newKeyword} onChange={handleNewKeywordChange}/><br />
+        <div >
+            <div className="searchBox">
+                 <input value = {newKeyword} placeholder = "Search..." onChange={handleNewKeywordChange}/><br />
                 
-        //     </div>
-        //     <div className="scroll-div">
-        //         <div className="results">
-        //             {
-        //             nodes.map(node => {
-        //                 return (       
-        //                         <div key={node.id} className = "card" >
-        //                             <a href="#" onClick={()=>{handleSubmit(node)}}>
-        //                                 {getHeaderText(node.raw_text, newKeyword)}
-        //                             </a>
-        //                         <a>{node.address}</a>
-        //                             <button onClick={ handleDetailVisibleToggle}>
-        //                                 {!detailVisible ? 'more detail': 'less detail'}
-        //                             </button>
-        //                             { detailVisible &&
-        //                                 (
-        //                                     <p>{getHighlightedText(node.raw_text, newKeyword)}</p>
-        //                                 )
-        //                             }
-        //                         </div>  
-        //                 )
-        //             })
-        //             }
-        //         </div>    
-        //     </div>
-            
-        // </div>
+            </div>
+            {
+                nodes ? 
+                <div className="scroll-div">
+                <div className="results">
+                    {
+                    nodes.map(node => {
+                        return (       
+                                <div key={node.id} className = "card" >
+                                    <a href="#" onClick={()=>{handleSubmit(node)}}>
+                                        {getHeaderText(node.raw_text, newKeyword)}
+                                    </a>
+                                <a>{node.address}</a>
+                                    <button onClick={ handleDetailVisibleToggle}>
+                                        {!detailVisible ? 'more detail': 'less detail'}
+                                    </button>
+                                    { detailVisible &&
+                                        (
+                                            <p>{getHighlightedText(node.raw_text, newKeyword)}</p>
+                                        )
+                                    }
+                                </div>  
+                        )
+                    })
+                    }
+                </div>    
+            </div>
+                : null
+            }
+        </div>
+
     )
 }
 

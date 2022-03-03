@@ -6,8 +6,8 @@ import { Routes, Route } from 'react-router';
 const App = () => {
 	return (
 		<Routes>
-			<Route  path = '/' element = {<Uploader/>}/>
-			<Route  path = '/search' element = {<Map/>}/>	
+			<Route  path = '/' element = {<Map/>}/>
+			
 		</Routes>
 	);
   }
