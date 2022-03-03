@@ -60,7 +60,7 @@ const Map = () => {
         
         <Search panTo = {panTo} setMarkers = {setMarkers} setSelected = {setSelected}/>
         <Uploader/>
-        {/* <GoogleMap 
+        <GoogleMap 
             mapContainerStyle={mapContainerStyle}
             zoom ={15}
             center = {center}
@@ -100,7 +100,7 @@ const Map = () => {
             ) : null }
 
 
-        </GoogleMap> */}
+        </GoogleMap>
         
         
     </div>
@@ -242,20 +242,24 @@ function Search({panTo, setMarkers, setSelected}){
                     {
                     nodes.map(node => {
                         return (       
+                            <a href="#" onClick={()=>{handleSubmit(node)}} className ="resultBlock">
                                 <div key={node.id} className = "card" >
-                                    <a href="#" onClick={()=>{handleSubmit(node)}}>
-                                        {getHeaderText(node.raw_text, newKeyword)}
-                                    </a>
-                                <a>{node.address}</a>
-                                    <button onClick={ handleDetailVisibleToggle}>
-                                        {!detailVisible ? 'more detail': 'less detail'}
-                                    </button>
-                                    { detailVisible &&
-                                        (
-                                            <p>{getHighlightedText(node.raw_text, newKeyword)}</p>
-                                        )
-                                    }
+                                    {getHeaderText(node.raw_text, newKeyword)}
+                                    <a>{node.address}</a>
+                                <div className="imgResultContainer">
+                                    <img  src={`${baseUrl}${node.image_path}`} className = "imgResult"/>
+                                </div>
+                        
+                                <button onClick={ handleDetailVisibleToggle}>
+                                    {!detailVisible ? 'more detail': 'less detail'}
+                                </button>
+                                { detailVisible &&
+                                    (
+                                        <p>{getHighlightedText(node.raw_text, newKeyword)}</p>
+                                    )
+                                }
                                 </div>  
+                            </a>
                         )
                     })
                     }
