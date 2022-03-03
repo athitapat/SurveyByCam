@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { apiKey } from "../configurations-secret/apikey";
 import { GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api"
 import { baseUrl, libraries } from "../configurations/constant";
@@ -53,14 +53,18 @@ const Map = () => {
             
     }, []);
     
+   
+
     if (loadError) return null//"Error loading maps";
     if(!isLoaded) return null//"Loading Maps";
+
+
 
     return <div>
         
         <Search panTo = {panTo} setMarkers = {setMarkers} setSelected = {setSelected}/>
         <Uploader/>
-        <GoogleMap 
+        {/* <GoogleMap 
             mapContainerStyle={mapContainerStyle}
             zoom ={15}
             center = {center}
@@ -100,7 +104,7 @@ const Map = () => {
             ) : null }
 
 
-        </GoogleMap>
+        </GoogleMap> */}
         
         
     </div>
@@ -112,20 +116,20 @@ function Search({panTo, setMarkers, setSelected}){
     const [nodes, setNodes] = useState(null);
     const [detailVisible, setDetailVisible] = useState<boolean>(false)
 
-    const handleNewKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
-        setNewKeyword(e.target.value)
-        //console.log(newKeyword)
+    useEffect(() => {
         if (newKeyword.length>0){
-            fetch(`${baseUrl}/search/${newKeyword}`)
-                .then(res => res.json())
-                .then(nodes=>{
-                    setNodes(nodes)
-                })
-        }
+                    fetch(`${baseUrl}/search/${newKeyword}`)
+                        .then(res => res.json())
+                        .then(nodes=>{
+                            setNodes(nodes)
+                        })
+                }
         else{
             setNodes(null)
-        }
-    };
+            }
+    }, [newKeyword])
+
+    
 
     const handleSubmit = (node) =>{
         const marksPos = nodes.map(node =>{
@@ -184,87 +188,42 @@ function Search({panTo, setMarkers, setSelected}){
     }
 
     return (
-        // <div className="searchBox">
-        //     <Combobox
-        //         onSelect={(address)=>{
-        //             console.log(address);
-        //         }}
-        //     >
-        //         <ComboboxInput 
-        //             value={newKeyword}
-        //             onChange = {handleNewKeywordChange}
-        //             placeholder = "Search..."
-        //         />
-        //         <div>
-        //             <ComboboxPopover>
-        //                 <div className="results">
-        //                 {
-        //                     nodes.map(node => {
-        //                         return (    
-        //                             <a href="#" onClick={()=>{handleSubmit(node)}} className ="resultBlock">
-        //                                 <div key={node.id} className = "card" >
-        //                                     {getHeaderText(node.raw_text, newKeyword)}
-        //                                     <a>{node.address}</a>
-        //                                 <div className="imgResultContainer">
-        //                                     <img  src={`${baseUrl}${node.image_path}`} className = "imgResult"/>
-        //                                 </div>
-                                        
-        //                                 <button onClick={ handleDetailVisibleToggle}>
-        //                                     {!detailVisible ? 'more detail': 'less detail'}
-        //                                 </button>
-        //                                 { detailVisible &&
-        //                                     (
-        //                                         <p>{getHighlightedText(node.raw_text, newKeyword)}</p>
-        //                                     )
-        //                                 }
-        //                                 </div>  
-        //                             </a>
-        //                         )
-        //                     })
-        //                 }
-        //                 </div>
-        //             </ComboboxPopover>
-        //         </div>
-        //     </Combobox>
-        // </div>
-        
-            
             
         <div >
             <div className="searchBox">
-                 <input value = {newKeyword} placeholder = "Search..." onChange={handleNewKeywordChange}/><br />
+                 <input value = {newKeyword} placeholder = "Search..." onChange={(e) => setNewKeyword(e.target.value)}/><br />
                 
             </div>
             {
                 nodes ? 
                 <div className="scroll-div">
-                <div className="results">
-                    {
-                    nodes.map(node => {
-                        return (       
-                            <a href="#" onClick={()=>{handleSubmit(node)}} className ="resultBlock">
-                                <div key={node.id} className = "card" >
-                                    {getHeaderText(node.raw_text, newKeyword)}
-                                    <a>{node.address}</a>
-                                <div className="imgResultContainer">
-                                    <img  src={`${baseUrl}${node.image_path}`} className = "imgResult"/>
-                                </div>
-                        
-                                <button onClick={ handleDetailVisibleToggle}>
-                                    {!detailVisible ? 'more detail': 'less detail'}
-                                </button>
-                                { detailVisible &&
-                                    (
-                                        <p>{getHighlightedText(node.raw_text, newKeyword)}</p>
-                                    )
-                                }
-                                </div>  
-                            </a>
-                        )
-                    })
-                    }
-                </div>    
-            </div>
+                    <div className="results">
+                        {
+                        nodes.map(node => {
+                            return (       
+                                <a href="#" onClick={()=>{handleSubmit(node)}} className ="resultBlock">
+                                    <div key={node.id} className = "card" >
+                                        {getHeaderText(node.raw_text, newKeyword)}
+                                        <a>{node.address}</a>
+                                    <div className="imgResultContainer">
+                                        <img  src={`${baseUrl}${node.image_path}`} className = "imgResult"/>
+                                    </div>
+                            
+                                    <button onClick={ handleDetailVisibleToggle}>
+                                        {!detailVisible ? 'more detail': 'less detail'}
+                                    </button>
+                                    { detailVisible &&
+                                        (
+                                            <p>{getHighlightedText(node.raw_text, newKeyword)}</p>
+                                        )
+                                    }
+                                    </div>  
+                                </a>
+                            )
+                        })
+                        }
+                    </div>    
+                </div>
                 : null
             }
         </div>

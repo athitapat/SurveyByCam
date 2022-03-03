@@ -1,6 +1,7 @@
 .results {
     max-width: 411px;
     margin: 0 auto;
+    background-color: #ffffff;
 }
 
 .result {
@@ -42,7 +43,7 @@
   width: 100%;
   max-width: 400px;
   z-index: 10;
-  
+  background-color: #ffffff;
 }
 
 .searchBox input {
