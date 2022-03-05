@@ -27,7 +27,7 @@ type position = {
 const Uploader = (props: UploaderProps) =>{
 	const [imgState, imgSetState] = useState<imgFile>({file: '',imagePreviewUrl: ''});
 	const [imgProcessedState, imgProcessedSetState] = useState<imgProcessedFile>({file: '',imageProcessedUrl: ''});
-	const [textsState, textsSetState] = useState<any[]>([])
+	const [textsState, textsSetState] = useState(null)
 	const [posState, posSetState] = useState<any>('')
 
 	const handleUpload =  (e) => {
@@ -65,9 +65,7 @@ const Uploader = (props: UploaderProps) =>{
 			posSetState(dataJson.position.latitude + dataJson.position.latitude_ref + ' ' + dataJson.position.longitude + dataJson.position.longitude_ref)
 			
 			source.close()
-			
 		}
-
 	}
 
 	const handleImageChange = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -91,6 +89,8 @@ const Uploader = (props: UploaderProps) =>{
 		textsSetState([])
 		posSetState('')
 	}
+
+
 
 
 
@@ -127,21 +127,29 @@ const Uploader = (props: UploaderProps) =>{
 	return (
 	<div className="previewComponent">
 		<form onSubmit={(e)=>handleUpload(e)}>
-		<input className="fileInput" 
-			type="file" 
-			onChange={(e)=>handleImageChange(e)} />
-		
+			<input className="fileInput" 
+				type="file" 
+				onChange={(e)=>handleImageChange(e)} />
+			
 		</form>
+		<div className='clearButtonContainer'>
+			<button className="clearButton" onClick={() => {imgSetState({
+					file: '',
+					imagePreviewUrl: ''
+			});textsSetState(null) }}>clear</button>
+		</div>
+		
 		{ $imagePreview ? 
 			<div>
-			<div className="imgPreview">
-				{$imagePreview}
-				
-			</div> 
-			<button className="submitButton" 
-			type="submit" 
-			onClick={(e)=>handleUpload(e)}>Upload</button>
-			</div>
+				<div className="imgPreview">
+					{$imagePreview}
+					
+				</div> 
+					<button className="submitButton" 
+						type="submit" 
+						onClick={(e)=>handleUpload(e)}>Upload
+					</button>
+				</div>
 			: null
 		}
 		
@@ -149,7 +157,7 @@ const Uploader = (props: UploaderProps) =>{
 		{$imageProcessed}
 		</div> */}
 		
-		{ $imagePreview ?
+		{ textsState ?
 			<div className='exteactedTextBox'>
 				<ul>
 					{textsState.map((item, pos)=>(

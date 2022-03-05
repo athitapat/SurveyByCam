@@ -64,7 +64,7 @@ const Map = () => {
         
         <Search panTo = {panTo} setMarkers = {setMarkers} setSelected = {setSelected}/>
         <Uploader/>
-        {/* <GoogleMap 
+        <GoogleMap 
             mapContainerStyle={mapContainerStyle}
             zoom ={15}
             center = {center}
@@ -102,9 +102,7 @@ const Map = () => {
                     </div>
                 </InfoWindow>
             ) : null }
-
-
-        </GoogleMap> */}
+        </GoogleMap>
         
         
     </div>
